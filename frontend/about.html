@@ -12,7 +12,7 @@
 
         <section class="sub-header">
             <nav>
-                <a href="index.html"> <img src="images/logo_eduhive.png"> </a>
+                <a href="index.html"> <img src="{{ url_for('static', filename='images/logo_eduhive.png') }}"> </a>
                 <div class="nav-links">
                     <ul>
                         <li><a href="index.html">Home</a></li>
@@ -88,7 +88,7 @@
 
         <!-- ......Footer...... -->
         <section class="footer">
-            <h4><img src="images/vgeclogo.png" style="width: 100px; height: 100px;"> Vishwakarma Government Engineering College, Ahmedabad</h4>
+            <h4><img src="{{ url_for('static', filename='images/vgeclogo.png') }}" style="width: 100px; height: 100px;"> Vishwakarma Government Engineering College, Ahmedabad</h4>
 
             <div class="icons">
                 <a href="https://x.com/governmentvgec?s=21&t=WoyqlUkoEdsZctjUr0td4A"><i class="fa fa-twitter"></i></a>

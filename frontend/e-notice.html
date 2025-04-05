@@ -12,7 +12,7 @@
 
         <section class="sub-header">
             <nav>
-                <a href="index.html"> <img src="images/logo_eduhive.png"> </a>
+                <a href="index.html"> <img src="{{ url_for('static', filename='images/logo_eduhive.png') }}"> </a>
                 <div class="nav-links">
                     <ul>
                         <li><a href="index.html">Home</a></li>
@@ -104,7 +104,7 @@
                             </h2>
                             <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
                               <div class="accordion-body">
-                                <img src="images/about.jpg">
+                                <img src="{{ url_for('static', filename='images/about.jpg') }}">
                                 <strong>This is the second item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
                               </div>
                             </div>
@@ -142,7 +142,7 @@
 
         <!-- ......Footer...... -->
         <section class="footer">
-            <h4><img src="images/vgeclogo.png" style="width: 100px; height: 100px;"> Vishwakarma Government Engineering College, Ahmedabad</h4>
+            <h4><img src="{{ url_for('static', filename='images/vgeclogo.png') }}" style="width: 100px; height: 100px;"> Vishwakarma Government Engineering College, Ahmedabad</h4>
 
 
             <div class="icons">
