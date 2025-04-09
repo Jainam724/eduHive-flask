@@ -24,5 +24,9 @@ def resources():
 def about():
     return render_template('about.html')
 
+@web.route('/faculty')
+def faculty():
+    return render_template('faculty.html')
+
 if __name__ == '__main__':
     web.run(debug=True)
