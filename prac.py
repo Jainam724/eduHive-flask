@@ -1,14 +1,15 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request, redirect, url_for, session, flash
 from flask_sqlalchemy import SQLAlchemy
 web = Flask(__name__)
 
-web.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///eduhive.db'
+web.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:@localhost/eduhive'
 db = SQLAlchemy(web)
 web.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 class Faculty(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(80), unique=True, nullable=False)
+    name = db.Column(db.String(80), primary_key=True, nullable=False)
+    surname = db.Column(db.String(80), unique=True, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(200), nullable=False)
     department = db.Column(db.String(100))
@@ -19,36 +20,42 @@ class Faculty(db.Model):
 class eNotice(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(100))
-    filename = db.Column(db.String(100))
+    desc = db.Column(db.Text)
+    file = db.Column(db.String(100))
+    date = db.Column(db.String(20))
     department = db.Column(db.String(100))
     semester = db.Column(db.String(20))
+    faculty = db.Column(db.String(100))
 
 class event(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(100))
-    date = db.Column(db.String(20))
     description = db.Column(db.Text)
+    file = db.Column(db.String(100))
+    date = db.Column(db.String(20))
+    
    
 class resource(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(100))
-    filename = db.Column(db.String(100))
-    category = db.Column(db.String(50))
+    description = db.Column(db.Text)
+    file = db.Column(db.String(100))
+    date = db.Column(db.String(20))
     department = db.Column(db.String(100))
     semester = db.Column(db.String(20))
-    # faculty = db.Column(db.String(100))
+    #faculty = db.Column(db.String(100))
 
 @web.route('/')
 @web.route('/home')
 
 def homepage():
-    # faculty = Faculty(username = "suhani", email = "abc@gmail.com")
-    # db.session.add(faculty)
-    # db.session.commit()
     return render_template('index.html')
 
-@web.route('/e-notice')
+@web.route('/e-notice', methods=["GET", "POST"]) 
 def enotice():
+    if request.method == "POST":
+        selected_department = request.form.get("department")
+        selected_semester = request.form.get("semester")
     return render_template('e-notice.html')
 
 @web.route('/events')
