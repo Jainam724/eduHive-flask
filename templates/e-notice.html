@@ -48,12 +48,13 @@
         <section class="testimonials">
             <h1>Select your preference</h1>
             <div class="row">
+              <form action="" method="POST">
                 <div class="about-col">
                     
                     <br>
                     <!-- <p>Department</p> -->
                     <h4 style="text-align: left;">Department:</h4>
-                    <select class="form-select form-select-sm" aria-label="Small select example">
+                    <select class="form-select form-select-sm" name="department" aria-label="Small select example">
                         <option selected>Select</option>
                         <option value="1">Chemical Engineering</option>
                         <option value="2">Computer Engineering</option>
@@ -73,7 +74,7 @@
 
                     <br>
                     <h4 style="text-align: left;">Semester</h4>
-                    <select class="form-select form-select-sm" aria-label="Small select example">
+                    <select class="form-select form-select-sm" name="semester" aria-label="Small select example">
                         <option selected>Select</option>
                         <option value="1">1</option>
                         <option value="2">2</option>
@@ -87,7 +88,8 @@
                     <br>
 
                 </div>
-                <centre><a href="" class="hero-btn red-btn" style="width: auto;">Submit preferences</a></centre>
+                <centre><button type="submit"><a href="" class="hero-btn red-btn" style="width: auto;">Submit preferences</a></button></centre>
+              </form>
             </div>
             <br>
             <br>

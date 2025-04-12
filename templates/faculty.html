@@ -95,12 +95,13 @@
             <!-- e-Notice Modal -->
             <div class="modal fade" id="addnotice" tabindex="-1" aria-labelledby="addnoticeLabel" aria-hidden="true">
                 <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="addnoticeLabel">Add e-Notice</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <form action="">
+                    <form action="/addnotice" method="POST">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="addnoticeLabel">Add e-Notice</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                        
                             <div class="modal-body">
                                     <div class="mb-3">
                                         <label for="notice-title" class="form-label">Notice title</label>
@@ -141,12 +142,12 @@
                                         <input type="text" name="fname" class="form-control" id="faculty-name" required>
                                     </div>
                             </div>
-                        </form>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                             <button type="button" class="btn btn-primary">Submit</button>
                         </div>
+                    </form>
                     </div>
                 </div>
             </div>
@@ -158,44 +159,44 @@
                             <h5 class="modal-title" id="delnoticeLabel">Delete e-Notice</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                        <div class="modal-body">
-                            <form>
-                                <div class="mb-3">
-                                    <label for="notice-title" class="form-label">Notice title</label>
-                                    <input type="text" class="form-control" id="notice-title" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="notice-date" class="form-label">Notice Date</label>
-                                    <input type="date" class="form-control" id="notice-date">
-                                </div>
-                                <div class="mb-3">
-                                    <label for="department" class="form-label">Department</label>
-                                    <select class="form-select form-select-sm" id="department" name="department" aria-label="Small select example" required>
-                                        <option selected>Select</option>
-                                        <option value="1">Chemical Engineering</option>
-                                        <option value="2">Computer Engineering</option>
-                                        <option value="3">Civil Engineering</option>
-                                        <option value="4">Electrical Engineering</option>
-                                        <option value="5">Electronics & Communication Engineering</option>
-                                        <option value="6">Information Technology</option>
-                                        <option value="7">Instrumentation & Control Engineering</option>
-                                        <option value="8">Mechanical Engineering</option>
-                                        <option value="9">Power Electronics Engineering</option>
-                                        <option value="10">Computer Science and Engineering (Data Science)</option>
-                                        <option value="11">Electronics And Instrumentation Engineering</option>
-                                        <option value="12">Information and Communication Technology</option>
-                                    </select>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="faculty-name" class="form-label">Faculty Name</label>
-                                    <input type="text" class="form-control" id="faculty-name" required>
-                                </div>
-                            </form>
-                        </div>
+                        <form action="/delnotice" method="POST">
+                            <div class="modal-body">
+                                    <div class="mb-3">
+                                        <label for="notice-title" class="form-label">Notice title</label>
+                                        <input type="text" name="ntitle" class="form-control" id="notice-title" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="notice-date" class="form-label">Notice Date</label>
+                                        <input type="date" name="ndate" class="form-control" id="notice-date">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="department" class="form-label">Department</label>
+                                        <select class="form-select form-select-sm" id="department" name="department" aria-label="Small select example" required>
+                                            <option selected>Select</option>
+                                            <option value="1">Chemical Engineering</option>
+                                            <option value="2">Computer Engineering</option>
+                                            <option value="3">Civil Engineering</option>
+                                            <option value="4">Electrical Engineering</option>
+                                            <option value="5">Electronics & Communication Engineering</option>
+                                            <option value="6">Information Technology</option>
+                                            <option value="7">Instrumentation & Control Engineering</option>
+                                            <option value="8">Mechanical Engineering</option>
+                                            <option value="9">Power Electronics Engineering</option>
+                                            <option value="10">Computer Science and Engineering (Data Science)</option>
+                                            <option value="11">Electronics And Instrumentation Engineering</option>
+                                            <option value="12">Information and Communication Technology</option>
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="faculty-name" class="form-label">Faculty Name</label>
+                                        <input type="text" name="fname" class="form-control" id="faculty-name" required>
+                                    </div>
+                            </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                             <button type="button" class="btn btn-primary">Submit</button>
                         </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -208,52 +209,52 @@
                             <h5 class="modal-title" id="addresourceLabel">Add Resources</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                        <div class="modal-body">
-                            <form>
-                                <div class="mb-3">
-                                    <label for="resource-title" class="form-label">Resource title</label>
-                                    <input type="text" class="form-control" id="resource-title" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="resource-description" class="form-label">Resource Description</label>
-                                    <input type="text" class="form-control" id="resource-description">
-                                </div>
-                                <div class="mb-3">
-                                    <label for="resource-file" class="form-label">Resource Attachment(File)</label>
-                                    <input type="file" class="form-control" id="resource-file">
-                                </div>
-                                <div class="mb-3">
-                                    <label for="Resource-date" class="form-label">Resource Date</label>
-                                    <input type="date" class="form-control" id="Resource-date">
-                                </div>
-                                <div class="mb-3">
-                                    <label for="department" class="form-label">Department</label>
-                                    <select class="form-select form-select-sm" id="department" name="department" aria-label="Small select example" required>
-                                        <option selected>Select</option>
-                                        <option value="1">Chemical Engineering</option>
-                                        <option value="2">Computer Engineering</option>
-                                        <option value="3">Civil Engineering</option>
-                                        <option value="4">Electrical Engineering</option>
-                                        <option value="5">Electronics & Communication Engineering</option>
-                                        <option value="6">Information Technology</option>
-                                        <option value="7">Instrumentation & Control Engineering</option>
-                                        <option value="8">Mechanical Engineering</option>
-                                        <option value="9">Power Electronics Engineering</option>
-                                        <option value="10">Computer Science and Engineering (Data Science)</option>
-                                        <option value="11">Electronics And Instrumentation Engineering</option>
-                                        <option value="12">Information and Communication Technology</option>
-                                    </select>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="faculty-name" class="form-label">Faculty Name</label>
-                                    <input type="text" class="form-control" id="faculty-name" required>
-                                </div>
-                            </form>
-                        </div>
+                        <form action="/addresource" method="POST">
+                            <div class="modal-body">
+                                    <div class="mb-3">
+                                        <label for="resource-title" class="form-label">Resource title</label>
+                                        <input type="text" name="rtitle" class="form-control" id="resource-title" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="resource-description" class="form-label">Resource Description</label>
+                                        <input type="text" name="rdesc" class="form-control" id="resource-description">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="resource-file" class="form-label">Resource Attachment(File)</label>
+                                        <input type="file" name="rfile" class="form-control" id="resource-file">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="Resource-date" class="form-label">Resource Date</label>
+                                        <input type="date" name="rdate" class="form-control" id="Resource-date">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="department" class="form-label">Department</label>
+                                        <select class="form-select form-select-sm" id="department" name="department" aria-label="Small select example" required>
+                                            <option selected>Select</option>
+                                            <option value="1">Chemical Engineering</option>
+                                            <option value="2">Computer Engineering</option>
+                                            <option value="3">Civil Engineering</option>
+                                            <option value="4">Electrical Engineering</option>
+                                            <option value="5">Electronics & Communication Engineering</option>
+                                            <option value="6">Information Technology</option>
+                                            <option value="7">Instrumentation & Control Engineering</option>
+                                            <option value="8">Mechanical Engineering</option>
+                                            <option value="9">Power Electronics Engineering</option>
+                                            <option value="10">Computer Science and Engineering (Data Science)</option>
+                                            <option value="11">Electronics And Instrumentation Engineering</option>
+                                            <option value="12">Information and Communication Technology</option>
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="faculty-name" class="form-label">Faculty Name</label>
+                                        <input type="text" name="fname" class="form-control" id="faculty-name" required>
+                                    </div>
+                            </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                             <button type="button" class="btn btn-primary">Submit</button>
                         </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -265,44 +266,44 @@
                             <h5 class="modal-title" id="delresourceLabel">Delete Resources</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                        <div class="modal-body">
-                            <form>
-                                <div class="mb-3">
-                                    <label for="resource-title" class="form-label">Resource title</label>
-                                    <input type="text" class="form-control" id="resource-title" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="resource-date" class="form-label">Resource Date</label>
-                                    <input type="date" class="form-control" id="resource-date">
-                                </div>
-                                <div class="mb-3">
-                                    <label for="department" class="form-label">Department</label>
-                                    <select class="form-select form-select-sm" id="department" name="department" aria-label="Small select example" required>
-                                        <option selected>Select</option>
-                                        <option value="1">Chemical Engineering</option>
-                                        <option value="2">Computer Engineering</option>
-                                        <option value="3">Civil Engineering</option>
-                                        <option value="4">Electrical Engineering</option>
-                                        <option value="5">Electronics & Communication Engineering</option>
-                                        <option value="6">Information Technology</option>
-                                        <option value="7">Instrumentation & Control Engineering</option>
-                                        <option value="8">Mechanical Engineering</option>
-                                        <option value="9">Power Electronics Engineering</option>
-                                        <option value="10">Computer Science and Engineering (Data Science)</option>
-                                        <option value="11">Electronics And Instrumentation Engineering</option>
-                                        <option value="12">Information and Communication Technology</option>
-                                    </select>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="faculty-name" class="form-label">Faculty Name</label>
-                                    <input type="text" class="form-control" id="faculty-name" required>
-                                </div>
-                            </form>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary">Submit</button>
-                        </div>
+                        <form action="/delresource" method="POST">
+                            <div class="modal-body">
+                                    <div class="mb-3">
+                                        <label for="resource-title" class="form-label">Resource title</label>
+                                        <input type="text" name="rtitle" class="form-control" id="resource-title" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="resource-date" class="form-label">Resource Date</label>
+                                        <input type="date" name="rdate" class="form-control" id="resource-date">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="department" class="form-label">Department</label>
+                                        <select class="form-select form-select-sm" id="department" name="department" aria-label="Small select example" required>
+                                            <option selected>Select</option>
+                                            <option value="1">Chemical Engineering</option>
+                                            <option value="2">Computer Engineering</option>
+                                            <option value="3">Civil Engineering</option>
+                                            <option value="4">Electrical Engineering</option>
+                                            <option value="5">Electronics & Communication Engineering</option>
+                                            <option value="6">Information Technology</option>
+                                            <option value="7">Instrumentation & Control Engineering</option>
+                                            <option value="8">Mechanical Engineering</option>
+                                            <option value="9">Power Electronics Engineering</option>
+                                            <option value="10">Computer Science and Engineering (Data Science)</option>
+                                            <option value="11">Electronics And Instrumentation Engineering</option>
+                                            <option value="12">Information and Communication Technology</option>
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="faculty-name" class="form-label">Faculty Name</label>
+                                        <input type="text" class="form-control" id="faculty-name" required>
+                                    </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-primary">Submit</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -316,52 +317,52 @@
                             <h5 class="modal-title" id="addeventLabel">Add Events</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                        <div class="modal-body">
-                            <form>
-                                <div class="mb-3">
-                                    <label for="event-title" class="form-label">Event title</label>
-                                    <input type="text" class="form-control" id="event-title" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="event-description" class="form-label">Event Description</label>
-                                    <input type="text" class="form-control" id="event-description">
-                                </div>
-                                <div class="mb-3">
-                                    <label for="event-file" class="form-label">Event Attachment(File)</label>
-                                    <input type="file" class="form-control" id="event-file">
-                                </div>
-                                <div class="mb-3">
-                                    <label for="event-date" class="form-label">Event Date</label>
-                                    <input type="date" class="form-control" id="event-date">
-                                </div>
-                                <div class="mb-3">
-                                    <label for="department" class="form-label">Department</label>
-                                    <select class="form-select form-select-sm" id="department" name="department" aria-label="Small select example" required>
-                                        <option selected>Select</option>
-                                        <option value="1">Chemical Engineering</option>
-                                        <option value="2">Computer Engineering</option>
-                                        <option value="3">Civil Engineering</option>
-                                        <option value="4">Electrical Engineering</option>
-                                        <option value="5">Electronics & Communication Engineering</option>
-                                        <option value="6">Information Technology</option>
-                                        <option value="7">Instrumentation & Control Engineering</option>
-                                        <option value="8">Mechanical Engineering</option>
-                                        <option value="9">Power Electronics Engineering</option>
-                                        <option value="10">Computer Science and Engineering (Data Science)</option>
-                                        <option value="11">Electronics And Instrumentation Engineering</option>
-                                        <option value="12">Information and Communication Technology</option>
-                                    </select>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="faculty-name" class="form-label">Faculty Name</label>
-                                    <input type="text" class="form-control" id="faculty-name" required>
-                                </div>
-                            </form>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary">Submit</button>
-                        </div>
+                        <form action="/addevent" method="POST">
+                            <div class="modal-body">
+                                    <div class="mb-3">
+                                        <label for="event-title" class="form-label">Event title</label>
+                                        <input type="text" name="etitle" class="form-control" id="event-title" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="event-description" class="form-label">Event Description</label>
+                                        <input type="text" name="edesc" class="form-control" id="event-description">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="event-file" class="form-label">Event Attachment(File)</label>
+                                        <input type="file" name="efile" class="form-control" id="event-file">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="event-date" class="form-label">Event Date</label>
+                                        <input type="date" name="edate" class="form-control" id="event-date">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="department" class="form-label">Department</label>
+                                        <select class="form-select form-select-sm" id="department" name="department" aria-label="Small select example" required>
+                                            <option selected>Select</option>
+                                            <option value="1">Chemical Engineering</option>
+                                            <option value="2">Computer Engineering</option>
+                                            <option value="3">Civil Engineering</option>
+                                            <option value="4">Electrical Engineering</option>
+                                            <option value="5">Electronics & Communication Engineering</option>
+                                            <option value="6">Information Technology</option>
+                                            <option value="7">Instrumentation & Control Engineering</option>
+                                            <option value="8">Mechanical Engineering</option>
+                                            <option value="9">Power Electronics Engineering</option>
+                                            <option value="10">Computer Science and Engineering (Data Science)</option>
+                                            <option value="11">Electronics And Instrumentation Engineering</option>
+                                            <option value="12">Information and Communication Technology</option>
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="faculty-name" class="form-label">Faculty Name</label>
+                                        <input type="text" name="fname" class="form-control" id="faculty-name" required>
+                                    </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-primary">Submit</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -373,44 +374,44 @@
                             <h5 class="modal-title" id="deleventLabel">Delete Events</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                        <div class="modal-body">
-                            <form>
-                                <div class="mb-3">
-                                    <label for="event-title" class="form-label">Event title</label>
-                                    <input type="text" class="form-control" id="event-title" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="event-date" class="form-label">Event Date</label>
-                                    <input type="date" class="form-control" id="event-date">
-                                </div>
-                                <div class="mb-3">
-                                    <label for="department" class="form-label">Department</label>
-                                    <select class="form-select form-select-sm" id="department" name="department" aria-label="Small select example" required>
-                                        <option selected>Select</option>
-                                        <option value="1">Chemical Engineering</option>
-                                        <option value="2">Computer Engineering</option>
-                                        <option value="3">Civil Engineering</option>
-                                        <option value="4">Electrical Engineering</option>
-                                        <option value="5">Electronics & Communication Engineering</option>
-                                        <option value="6">Information Technology</option>
-                                        <option value="7">Instrumentation & Control Engineering</option>
-                                        <option value="8">Mechanical Engineering</option>
-                                        <option value="9">Power Electronics Engineering</option>
-                                        <option value="10">Computer Science and Engineering (Data Science)</option>
-                                        <option value="11">Electronics And Instrumentation Engineering</option>
-                                        <option value="12">Information and Communication Technology</option>
-                                    </select>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="faculty-name" class="form-label">Faculty Name</label>
-                                    <input type="text" class="form-control" id="faculty-name" required>
-                                </div>
-                            </form>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary">Submit</button>
-                        </div>
+                        <form action="/delresource" method="POST">
+                            <div class="modal-body">
+                                    <div class="mb-3">
+                                        <label for="event-title" class="form-label">Event title</label>
+                                        <input type="text" name="etitle" class="form-control" id="event-title" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="event-date" class="form-label">Event Date</label>
+                                        <input type="date" name="edate" class="form-control" id="event-date">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="department" class="form-label">Department</label>
+                                        <select class="form-select form-select-sm" id="department" name="department" aria-label="Small select example" required>
+                                            <option selected>Select</option>
+                                            <option value="1">Chemical Engineering</option>
+                                            <option value="2">Computer Engineering</option>
+                                            <option value="3">Civil Engineering</option>
+                                            <option value="4">Electrical Engineering</option>
+                                            <option value="5">Electronics & Communication Engineering</option>
+                                            <option value="6">Information Technology</option>
+                                            <option value="7">Instrumentation & Control Engineering</option>
+                                            <option value="8">Mechanical Engineering</option>
+                                            <option value="9">Power Electronics Engineering</option>
+                                            <option value="10">Computer Science and Engineering (Data Science)</option>
+                                            <option value="11">Electronics And Instrumentation Engineering</option>
+                                            <option value="12">Information and Communication Technology</option>
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="faculty-name" class="form-label">Faculty Name</label>
+                                        <input type="text" name="fname" class="form-control" id="faculty-name" required>
+                                    </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-primary">Submit</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
