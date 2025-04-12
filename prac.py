@@ -76,6 +76,8 @@ def about():
 def faculty():
     return render_template('faculty.html')
 
+# features add/del
+
 @web.route('/addnotice', methods=["GET", "POST"])
 def addnotice():
     if request.method == "POST":

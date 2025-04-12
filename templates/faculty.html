@@ -103,52 +103,65 @@
                             </div>
                         
                             <div class="modal-body">
-                                    <div class="mb-3">
-                                        <label for="notice-title" class="form-label">Notice title</label>
-                                        <input type="text" name="ntitle" class="form-control" id="notice-title" required>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="notice-description" class="form-label">Notice Description</label>
-                                        <input type="text" name="ndesc" class="form-control" id="notice-description" required>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="notice-file" class="form-label">Notice Attachment(File)</label>
-                                        <input type="file" name="nfile" class="form-control" id="notice-file">
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="notice-date" class="form-label">Notice Date</label>
-                                        <input type="date" name="ndate" class="form-control" id="notice-date" required>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="department" class="form-label">Department</label>
-                                        <select class="form-select form-select-sm" id="department" name="department" aria-label="Small select example" required>
-                                            <option selected>Select</option>
-                                            <option value="1">Chemical Engineering</option>
-                                            <option value="2">Computer Engineering</option>
-                                            <option value="3">Civil Engineering</option>
-                                            <option value="4">Electrical Engineering</option>
-                                            <option value="5">Electronics & Communication Engineering</option>
-                                            <option value="6">Information Technology</option>
-                                            <option value="7">Instrumentation & Control Engineering</option>
-                                            <option value="8">Mechanical Engineering</option>
-                                            <option value="9">Power Electronics Engineering</option>
-                                            <option value="10">Computer Science and Engineering (Data Science)</option>
-                                            <option value="11">Electronics And Instrumentation Engineering</option>
-                                            <option value="12">Information and Communication Technology</option>
-                                        </select>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="faculty-name" class="form-label">Faculty Name</label>
-                                        <input type="text" name="fname" class="form-control" id="faculty-name" required>
-                                    </div>
+                                <div class="mb-3">
+                                    <label for="notice-title" class="form-label">Notice title</label>
+                                    <input type="text" name="ntitle" class="form-control" id="notice-title" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="notice-description" class="form-label">Notice Description</label>
+                                    <input type="text" name="ndesc" class="form-control" id="notice-description" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="notice-file" class="form-label">Notice Attachment(File)</label>
+                                    <input type="file" name="nfile" class="form-control" id="notice-file">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="notice-date" class="form-label">Notice Date</label>
+                                    <input type="date" name="ndate" class="form-control" id="notice-date" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="department" class="form-label">Department</label>
+                                    <select class="form-select form-select-sm" id="department" name="department" aria-label="Small select example" required>
+                                        <option selected>Select</option>
+                                        <option value="1">Chemical Engineering</option>
+                                        <option value="2">Computer Engineering</option>
+                                        <option value="3">Civil Engineering</option>
+                                        <option value="4">Electrical Engineering</option>
+                                        <option value="5">Electronics & Communication Engineering</option>
+                                        <option value="6">Information Technology</option>
+                                        <option value="7">Instrumentation & Control Engineering</option>
+                                        <option value="8">Mechanical Engineering</option>
+                                        <option value="9">Power Electronics Engineering</option>
+                                        <option value="10">Computer Science and Engineering (Data Science)</option>
+                                        <option value="11">Electronics And Instrumentation Engineering</option>
+                                        <option value="12">Information and Communication Technology</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="department" class="form-label">Semester</label>
+                                    <select class="form-select form-select-sm" name="semester" aria-label="Small select example">
+                                        <option selected>Select</option>
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
+                                        <option value="6">6</option>
+                                        <option value="7">7</option>
+                                        <option value="8">8</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="faculty-name" class="form-label">Faculty Name</label>
+                                    <input type="text" name="fname" class="form-control" id="faculty-name" required>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-primary">Submit</button>
                             </div>
                         </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary">Submit</button>
-                        </div>
                     </form>
-                    </div>
                 </div>
             </div>
 
@@ -185,6 +198,20 @@
                                             <option value="10">Computer Science and Engineering (Data Science)</option>
                                             <option value="11">Electronics And Instrumentation Engineering</option>
                                             <option value="12">Information and Communication Technology</option>
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="department" class="form-label">Semester</label>
+                                        <select class="form-select form-select-sm" name="semester" aria-label="Small select example">
+                                            <option selected>Select</option>
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
+                                            <option value="6">6</option>
+                                            <option value="7">7</option>
+                                            <option value="8">8</option>
                                         </select>
                                     </div>
                                     <div class="mb-3">
@@ -246,6 +273,20 @@
                                         </select>
                                     </div>
                                     <div class="mb-3">
+                                        <label for="department" class="form-label">Semester</label>
+                                        <select class="form-select form-select-sm" name="semester" aria-label="Small select example">
+                                            <option selected>Select</option>
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
+                                            <option value="6">6</option>
+                                            <option value="7">7</option>
+                                            <option value="8">8</option>
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
                                         <label for="faculty-name" class="form-label">Faculty Name</label>
                                         <input type="text" name="fname" class="form-control" id="faculty-name" required>
                                     </div>
@@ -292,6 +333,20 @@
                                             <option value="10">Computer Science and Engineering (Data Science)</option>
                                             <option value="11">Electronics And Instrumentation Engineering</option>
                                             <option value="12">Information and Communication Technology</option>
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="department" class="form-label">Semester</label>
+                                        <select class="form-select form-select-sm" name="semester" aria-label="Small select example">
+                                            <option selected>Select</option>
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
+                                            <option value="6">6</option>
+                                            <option value="7">7</option>
+                                            <option value="8">8</option>
                                         </select>
                                     </div>
                                     <div class="mb-3">
@@ -354,6 +409,20 @@
                                         </select>
                                     </div>
                                     <div class="mb-3">
+                                        <label for="department" class="form-label">Semester</label>
+                                        <select class="form-select form-select-sm" name="semester" aria-label="Small select example">
+                                            <option selected>Select</option>
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
+                                            <option value="6">6</option>
+                                            <option value="7">7</option>
+                                            <option value="8">8</option>
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
                                         <label for="faculty-name" class="form-label">Faculty Name</label>
                                         <input type="text" name="fname" class="form-control" id="faculty-name" required>
                                     </div>
@@ -400,6 +469,20 @@
                                             <option value="10">Computer Science and Engineering (Data Science)</option>
                                             <option value="11">Electronics And Instrumentation Engineering</option>
                                             <option value="12">Information and Communication Technology</option>
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="department" class="form-label">Semester</label>
+                                        <select class="form-select form-select-sm" name="semester" aria-label="Small select example">
+                                            <option selected>Select</option>
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
+                                            <option value="6">6</option>
+                                            <option value="7">7</option>
+                                            <option value="8">8</option>
                                         </select>
                                     </div>
                                     <div class="mb-3">
