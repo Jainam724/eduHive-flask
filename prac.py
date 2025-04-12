@@ -74,6 +74,9 @@ def about():
 def faculty():
     return render_template('faculty.html')
 
+
+#faculty actions
+
 @web.route('/addnotice', methods=["GET", "POST"])
 def addnotice():
     return render_template('addnotice.html')
