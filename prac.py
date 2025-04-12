@@ -1,5 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, session, flash
 from flask_sqlalchemy import SQLAlchemy
+from datetime import datetime
+
 web = Flask(__name__)
 
 web.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:@localhost/eduhive'
@@ -76,6 +78,20 @@ def faculty():
 
 @web.route('/addnotice', methods=["GET", "POST"])
 def addnotice():
+    if request.method == "POST":
+        title = request.form.get("ntitle")
+        desc = request.form.get("dnesc")
+        file = request.form.get("nfile")
+        date = request.form.get("ndate")
+        department = request.form.get("department")
+        semester = request.form.get("semester")
+        faculty = request.form.get("fname")
+
+        new_notice = eNotice(title=title, desc=desc, file=file, date=date, department=department, semester=semester, faculty_name=faculty)
+        db.session.add(new_notice)
+        db.session.commit()
+        flash('Notice added successfully!', 'success')
+        return redirect(url_for('addnotice'))
     return render_template('addnotice.html')
 
 @web.route('/faculty/delnotice', methods=["GET", "POST"])
@@ -84,6 +100,19 @@ def delnotice():
 
 @web.route('/faculty/addresource', methods=["GET", "POST"])
 def addresource():
+    if request.method == "POST":
+        title = request.form.get("rtitle")
+        desc = request.form.get("rdesc")
+        file = request.form.get("rfile")
+        date = request.form.get("rdate")
+        department = request.form.get("department")
+        semester = request.form.get("semester")
+
+        new_resource = resource(title=title, desc=desc, file=file, date=date, department=department, semester=semester)
+        db.session.add(new_resource)
+        db.session.commit()
+        flash('Resource added successfully!', 'success')
+        return redirect(url_for('addresource'))
     return render_template('addresource.html')
 
 @web.route('/faculty/delresource', methods=["GET", "POST"])
