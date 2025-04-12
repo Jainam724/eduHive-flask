@@ -74,27 +74,29 @@ def about():
 def faculty():
     return render_template('faculty.html')
 
-@web.route('/addnotice', methods=["GET", "POST"])
+####
+
+@web.route('/faculty/addnotice', methods=["GET", "POST"])
 def addnotice():
     return render_template('addnotice.html')
 
-@web.route('/delnotice', methods=["GET", "POST"])
+@web.route('/faculty/delnotice', methods=["GET", "POST"])
 def delnotice():
     return render_template('delnotice.html')
 
-@web.route('/addresource', methods=["GET", "POST"])
+@web.route('/faculty/addresource', methods=["GET", "POST"])
 def addresource():
     return render_template('addresource.html')
 
-@web.route('/delresource', methods=["GET", "POST"])
+@web.route('/faculty/delresource', methods=["GET", "POST"])
 def delresource():
     return render_template('delresource.html')
 
-@web.route('/addevent', methods=["GET", "POST"])
+@web.route('/faculty/addevent', methods=["GET", "POST"])
 def addevent():
     return render_template('addevent.html')
 
-@web.route('/delevent', methods=["GET", "POST"])
+@web.route('/faculty/delevent', methods=["GET", "POST"])
 def delevent():
     return render_template('delevent.html')
 
