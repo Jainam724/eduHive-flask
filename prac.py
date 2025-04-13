@@ -57,7 +57,7 @@ class resource(db.Model):
 def homepage():
     return render_template('index.html')
 
-@web.route('/e-notice/<string:post_slug>', methods=["GET", "POST"]) 
+@web.route('/e-notice', methods=["GET", "POST"]) 
 def enotice():
     notice = eNotice.query.all()
     return render_template('e-notice.html')
