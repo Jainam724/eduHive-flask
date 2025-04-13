@@ -56,55 +56,66 @@ class resource(db.Model):
 @web.route('/home')
 
 def homepage():
+    if request.method == "POST":
+        username = request.form.get("username")
+        password = request.form.get("password")
+        faculty = Faculty.query.filter_by(email=username, password=password).first()
+        
+        if faculty:
+            session['username'] = username
+            session['password'] = password
+            return redirect(url_for('faculty'))
+        else:
+            flash('Invalid credentials. Please try again.', 'danger')
     return render_template('index.html')
 
-@web.route('/e-notice', methods=["GET", "POST"]) 
-def notice():
-    n = enotice.query.filter_by(id='1').first()
-    return render_template('e-notice.html', eNotice=n)
+# @web.route('/e-notice', methods=["GET", "POST"]) 
+# def notice():
+#     n = enotice.query.filter_by(id='1').first()
+#     return render_template('e-notice.html', eNotice=n)
 
 @web.route('/e-notice', methods=['GET', 'POST'])
-# def enotice():
-#     department = request.args.get('department', '')
-#     semester = request.args.get('semester', '')
+def enotice():
+    department = request.args.get('department', '')
+    semester = request.args.get('semester', '')
     
-#     query = enotice.query.order_by(enotice.date.desc())
+    query = enotice.query.order_by(enotice.date.desc())
     
-#     if department:
-#         query = query.filter_by(department=department)
-#     if semester:
-#         query = query.filter_by(semester=semester)
+    if department:
+        query = query.filter_by(department=department)
+    if semester:
+        query = query.filter_by(semester=semester)
         
-#     notices = query.all()
-#     return render_template('e-notice.html', notices=notices)
-
-@web.route('/events')
-def events():
-    return render_template('events.html')
+    notices = query.all()
+    return render_template('e-notice.html', notices=notices)
 
 # @web.route('/events')
 # def events():
-#     events_list = event.query.order_by(event.date.desc()).all()
-#     return render_template('events.html', events=events_list)
+#     return render_template('events.html')
 
-@web.route('/resources')
-def resources():
-    return render_template('resources.html')
+@web.route('/events')
+def events():
+    events_list = event.query.order_by(event.date.desc()).all()
+    return render_template('events.html', events=events_list)
 
-# @web.route('/resources', methods=['GET', 'POST'])
+# @web.route('/resources')
 # def resources():
-#     department = request.args.get('department', '')
-#     semester = request.args.get('semester', '')
+#     return render_template('resources.html')
+
+@web.route('/resources', methods=['GET', 'POST'])
+def resources():
+    department = request.args.get('department', '')
+    semester = request.args.get('semester', '')
     
-#     query = resource.query.order_by(resource.date.desc())
+    query = resource.query.order_by(resource.date.desc())
     
-#     if department:
-#         query = query.filter_by(department=department)
-#     if semester:
-#         query = query.filter_by(semester=semester)
+    if department:
+        query = query.filter_by(department=department)
+    if semester:
+        query = query.filter_by(semester=semester)
         
-#     resources_list = query.all()
-#     return render_template('resources.html', resources=resources_list)
+    resources_list = query.all()
+    return render_template('resources.html', resources=resources_list)
 
 @web.route('/about')
 def about():
