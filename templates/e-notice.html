@@ -94,7 +94,7 @@
             <div class="row">
                 <div class="about-col">
                     <!-- <img src="images/about.jpg"> -->
-                     {% set fname = 'img'/ + eNotice.file %}
+                     {% set fname = 'images/' + eNotice.file %}
                     <div class="accordion" id="accordionExample">
                         <div class="accordion-item">
                             <h2 class="accordion-header">
@@ -105,7 +105,7 @@
                             <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
                               <div class="accordion-body">
                                 <img src="{{ url_for('static', filename=fname) }}">
-                                {{ eNotice.description }}
+                                {{ eNotice.desc }}
                                 <strong>{{eNotice.date}}</strong>
                                 <code>Faculty name: {{eNotice.faculty}}</code>
                               </div>

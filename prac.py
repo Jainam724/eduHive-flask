@@ -7,6 +7,7 @@ web = Flask(__name__)
 
 web.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:@localhost/eduhive'
 db = SQLAlchemy(web)
+web.secret_key = ''
 web.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 class Faculty(db.Model):
@@ -20,7 +21,7 @@ class Faculty(db.Model):
     def __repr__(self):
         return f'<Faculty {self.username}>'
     
-class eNotice(db.Model):
+class enotice(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(100))
     desc = db.Column(db.Text)
@@ -58,17 +59,52 @@ def homepage():
     return render_template('index.html')
 
 @web.route('/e-notice', methods=["GET", "POST"]) 
-def enotice():
-    notice = eNotice.query.all()
-    return render_template('e-notice.html')
+def notice():
+    n = enotice.query.filter_by(id='1').first()
+    return render_template('e-notice.html', eNotice=n)
+
+@web.route('/e-notice', methods=['GET', 'POST'])
+# def enotice():
+#     department = request.args.get('department', '')
+#     semester = request.args.get('semester', '')
+    
+#     query = enotice.query.order_by(enotice.date.desc())
+    
+#     if department:
+#         query = query.filter_by(department=department)
+#     if semester:
+#         query = query.filter_by(semester=semester)
+        
+#     notices = query.all()
+#     return render_template('e-notice.html', notices=notices)
 
 @web.route('/events')
 def events():
     return render_template('events.html')
 
+# @web.route('/events')
+# def events():
+#     events_list = event.query.order_by(event.date.desc()).all()
+#     return render_template('events.html', events=events_list)
+
 @web.route('/resources')
 def resources():
     return render_template('resources.html')
+
+# @web.route('/resources', methods=['GET', 'POST'])
+# def resources():
+#     department = request.args.get('department', '')
+#     semester = request.args.get('semester', '')
+    
+#     query = resource.query.order_by(resource.date.desc())
+    
+#     if department:
+#         query = query.filter_by(department=department)
+#     if semester:
+#         query = query.filter_by(semester=semester)
+        
+#     resources_list = query.all()
+#     return render_template('resources.html', resources=resources_list)
 
 @web.route('/about')
 def about():
@@ -80,26 +116,28 @@ def faculty():
 
 # features add/del
 
-@web.route('/addnotice', methods=["GET", "POST"])
+@web.route('/faculty/addnotice', methods=["GET", "POST"])
 def addnotice():
     if request.method == "POST":
         title = request.form.get("ntitle")
-        desc = request.form.get("dnesc")
+        desc = request.form.get("ndesc")
         file = request.form.get("nfile")
         date = request.form.get("ndate")
         department = request.form.get("department")
         semester = request.form.get("semester")
         faculty = request.form.get("fname")
 
-        new_notice = eNotice(title=title, desc=desc, file=file, date=date, department=department, semester=semester, faculty=faculty)
+        new_notice = enotice(title=title, desc=desc, file=file, date=date, department=department, semester=semester, faculty=faculty)
         db.session.add(new_notice)
         db.session.commit()
-        flash('Notice added successfully!', 'success')
-        return redirect(url_for('addnotice'))
-    return render_template('addnotice.html')
+        # flash('Notice added successfully!', 'success')
+        # return redirect(url_for('addnotice'))
+    return render_template('faculty.html')
 
 @web.route('/faculty/delnotice', methods=["GET", "POST"])
 def delnotice():
+    # if request.method == "POST":
+    #     db.session.delete(enotice.query.filter_by(title=request.form.get("title")).first())
     return render_template('delnotice.html')
 
 @web.route('/faculty/addresource', methods=["GET", "POST"])
