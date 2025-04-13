@@ -1,10 +1,11 @@
 from flask import Flask, render_template, request, redirect, url_for, session, flash
 from flask_sqlalchemy import SQLAlchemy
+
 from datetime import datetime
 
 web = Flask(__name__)
 
-web.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:@localhost/eduhive'
+web.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:@localhost/eduhive'
 db = SQLAlchemy(web)
 web.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
@@ -35,6 +36,9 @@ class event(db.Model):
     description = db.Column(db.Text)
     file = db.Column(db.String(100))
     date = db.Column(db.String(20))
+    # department = db.Column(db.String(100))
+    # semester = db.Column(db.String(20))
+    #faculty = db.Column(db.String(100))
     
    
 class resource(db.Model):
@@ -45,7 +49,7 @@ class resource(db.Model):
     date = db.Column(db.String(20))
     department = db.Column(db.String(100))
     semester = db.Column(db.String(20))
-    #faculty = db.Column(db.String(100))
+    faculty = db.Column(db.String(100))
 
 @web.route('/')
 @web.route('/home')
@@ -53,11 +57,9 @@ class resource(db.Model):
 def homepage():
     return render_template('index.html')
 
-@web.route('/e-notice', methods=["GET", "POST"]) 
+@web.route('/e-notice/<string:post_slug>', methods=["GET", "POST"]) 
 def enotice():
-    if request.method == "POST":
-        selected_department = request.form.get("department")
-        selected_semester = request.form.get("semester")
+    notice = eNotice.query.all()
     return render_template('e-notice.html')
 
 @web.route('/events')
@@ -89,7 +91,7 @@ def addnotice():
         semester = request.form.get("semester")
         faculty = request.form.get("fname")
 
-        new_notice = eNotice(title=title, desc=desc, file=file, date=date, department=department, semester=semester, faculty_name=faculty)
+        new_notice = eNotice(title=title, desc=desc, file=file, date=date, department=department, semester=semester, faculty=faculty)
         db.session.add(new_notice)
         db.session.commit()
         flash('Notice added successfully!', 'success')
@@ -123,6 +125,20 @@ def delresource():
 
 @web.route('/faculty/addevent', methods=["GET", "POST"])
 def addevent():
+    if request.method == "POST":
+        title = request.form.get("etitle")
+        desc = request.form.get("edesc")
+        file = request.form.get("efile")
+        date = request.form.get("edate")
+        # department = request.form.get("department")
+        # semester = request.form.get("semester")
+        # faculty = request.form.get("fname")
+
+        new_event = event(title=title, description=desc, file=file, date=date)
+        db.session.add(new_event)
+        db.session.commit()
+        flash('Event added successfully!', 'success')
+        return redirect(url_for('addevent'))
     return render_template('addevent.html')
 
 @web.route('/faculty/delevent', methods=["GET", "POST"])
