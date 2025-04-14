@@ -97,7 +97,7 @@ def show_enotices():
     if request.method == 'POST':
         department = request.form.get('department')
         semester = request.form.get('semester')
-
+        # print(department, semester)
         conn = get_db_connection()
         cursor = conn.cursor(dictionary=True)
         query = "SELECT * FROM Enotice WHERE department = %s AND semester = %s"
@@ -119,20 +119,39 @@ def events():
 # def resources():
 #     return render_template('resources.html')
 
-@web.route('/resources', methods=['GET', 'POST'])
-def resources():
-    department = request.args.get('department', '')
-    semester = request.args.get('semester', '')
+# @web.route('/resources', methods=['GET', 'POST'])
+# def resources():
+#     department = request.args.get('department', '')
+#     semester = request.args.get('semester', '')
     
-    query = resource.query.order_by(resource.date.desc())
+#     query = resource.query.order_by(resource.date.desc())
     
-    if department:
-        query = query.filter_by(department=department)
-    if semester:
-        query = query.filter_by(semester=semester)
+#     if department:
+#         query = query.filter_by(department=department)
+#     if semester:
+#         query = query.filter_by(semester=semester)
         
-    resources_list = query.all()[0:4]
-    return render_template('resources.html', resources=resources_list)
+#     resources_list = query.all()[0:4]
+#     return render_template('resources.html', resources=resources_list)
+
+@web.route('/resources')
+def resource():
+    return render_template('resources.html')
+
+@web.route('/resources/show', methods=['GET', 'POST'])
+def show_resource():
+    resources = []
+    if request.method == 'POST':
+        department = request.form.get('department')
+        semester = request.form.get('semester')
+        # print(department, semester)
+        conn = get_db_connection()
+        cursor = conn.cursor(dictionary=True)
+        query = "SELECT * FROM Enotice WHERE department = %s AND semester = %s"
+        cursor.execute(query, (department, semester))
+        resources = cursor.fetchall()
+        conn.close()
+    return render_template('resources.html', resources=resources)
 
 @web.route('/about')
 def about():
