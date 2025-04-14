@@ -12,49 +12,49 @@ web.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 class Faculty(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(80), primary_key=True, nullable=False)
-    surname = db.Column(db.String(80), unique=True, nullable=False)
-    email = db.Column(db.String(120), unique=True, nullable=False)
-    password = db.Column(db.String(200), nullable=False)
-    department = db.Column(db.String(100))
+    name = db.Column(db.String(10), primary_key=True, nullable=False)
+    surname = db.Column(db.String(10), unique=True, nullable=False)
+    email = db.Column(db.String(30), unique=True, nullable=False)
+    password = db.Column(db.String(12), nullable=False)
+    department = db.Column(db.String(30))
 
     def __repr__(self):
         return f'<Faculty {self.username}>'
     
-class enotice(db.Model):
+class Enotice(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(100))
+    title = db.Column(db.String(20))
     desc = db.Column(db.Text)
     file = db.Column(db.String(100))
     date = db.Column(db.String(20))
-    department = db.Column(db.String(100))
+    department = db.Column(db.String(30))
     semester = db.Column(db.String(20))
-    faculty = db.Column(db.String(100))
+    faculty = db.Column(db.String(20))
 
 class event(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(100))
+    title = db.Column(db.String(20))
     description = db.Column(db.Text)
     file = db.Column(db.String(100))
     date = db.Column(db.String(20))
-    # department = db.Column(db.String(100))
-    # semester = db.Column(db.String(20))
-    #faculty = db.Column(db.String(100))
+    # department = db.Column(db.String(30))
+    # semester = db.Column(db.String(10))
+    #faculty = db.Column(db.String(20))
     
    
 class resource(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(100))
+    title = db.Column(db.String(20))
     description = db.Column(db.Text)
     file = db.Column(db.String(100))
     date = db.Column(db.String(20))
-    department = db.Column(db.String(100))
-    semester = db.Column(db.String(20))
-    faculty = db.Column(db.String(100))
+    department = db.Column(db.String(30))
+    semester = db.Column(db.String(10))
+    faculty = db.Column(db.String(20))
 
 @web.route('/')
-@web.route('/home')
 
+@web.route('/home')
 def homepage():
     if request.method == "POST":
         username = request.form.get("username")
@@ -75,19 +75,20 @@ def homepage():
 #     return render_template('e-notice.html', eNotice=n)
 
 @web.route('/e-notice', methods=['GET', 'POST'])
-def enotice():
+def show_enotices():
     department = request.args.get('department', '')
     semester = request.args.get('semester', '')
     
-    query = enotice.query.order_by(enotice.date.desc())
+    query = Enotice.query.order_by(Enotice.date.desc())
     
     if department:
         query = query.filter_by(department=department)
     if semester:
         query = query.filter_by(semester=semester)
         
-    notices = query.all()
+    notices = query.limit(4).all()
     return render_template('e-notice.html', notices=notices)
+
 
 # @web.route('/events')
 # def events():
@@ -95,7 +96,7 @@ def enotice():
 
 @web.route('/events')
 def events():
-    events_list = event.query.order_by(event.date.desc()).all()
+    events_list = event.query.order_by(event.date.desc()).all()[0:4]
     return render_template('events.html', events=events_list)
 
 # @web.route('/resources')
@@ -114,7 +115,7 @@ def resources():
     if semester:
         query = query.filter_by(semester=semester)
         
-    resources_list = query.all()
+    resources_list = query.all()[0:4]
     return render_template('resources.html', resources=resources_list)
 
 @web.route('/about')
