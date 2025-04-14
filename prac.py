@@ -39,18 +39,18 @@ class Enotice(db.Model):
     semester = db.Column(db.String(20))
     faculty = db.Column(db.String(20))
 
-class event(db.Model):
+class Events(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(20))
+    title = db.Column(db.String(100))
     description = db.Column(db.Text)
     file = db.Column(db.String(100))
     date = db.Column(db.String(20))
     # department = db.Column(db.String(30))
     # semester = db.Column(db.String(10))
-    #faculty = db.Column(db.String(20))
+    # faculty = db.Column(db.String(20))
     
    
-class resource(db.Model):
+class Resources(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(20))
     description = db.Column(db.Text)
@@ -112,8 +112,15 @@ def show_enotices():
 
 @web.route('/events')
 def events():
-    events_list = event.query.order_by(event.date.desc()).all()[0:4]
-    return render_template('events.html', events=events_list)
+        events_list = []
+        conn = get_db_connection()
+        cursor = conn.cursor(dictionary=True)
+        query = "SELECT * FROM events ORDER BY date"
+        cursor.execute(query)
+        events_list = cursor.fetchall()
+        conn.close()
+        # events_list = events.query.order_by(events.date.desc()).all()[0:4]
+        return render_template('events.html', events=events_list)
 
 # @web.route('/resources')
 # def resources():
@@ -185,7 +192,7 @@ def addnotice():
         semester = request.form.get("semester")
         faculty = request.form.get("fname")
 
-        new_notice = enotice(title=title, desc=desc, file=file, date=date, department=department, semester=semester, faculty=faculty)
+        new_notice = Enotice(title=title, desc=desc, file=file, date=date, department=department, semester=semester, faculty=faculty)
         db.session.add(new_notice)
         db.session.commit()
         # flash('Notice added successfully!', 'success')
@@ -207,13 +214,14 @@ def addresource():
         date = request.form.get("rdate")
         department = request.form.get("department")
         semester = request.form.get("semester")
+        faculty = request.form.get("fname")
 
-        new_resource = resource(title=title, desc=desc, file=file, date=date, department=department, semester=semester)
+        new_resource = Resources(title=title, description=desc, file=file, date=date, department=department, semester=semester, faculty=faculty)
         db.session.add(new_resource)
         db.session.commit()
-        flash('Resource added successfully!', 'success')
-        return redirect(url_for('addresource'))
-    return render_template('addresource.html')
+        # flash('Resource added successfully!', 'success')
+        # return redirect(url_for('addresource'))
+    return render_template('faculty.html')
 
 @web.route('/faculty/delresource', methods=["GET", "POST"])
 def delresource():
@@ -226,16 +234,13 @@ def addevent():
         desc = request.form.get("edesc")
         file = request.form.get("efile")
         date = request.form.get("edate")
-        # department = request.form.get("department")
-        # semester = request.form.get("semester")
-        # faculty = request.form.get("fname")
-
-        new_event = event(title=title, description=desc, file=file, date=date)
+        
+        new_event = Events(title=title, description=desc, file=file, date=date)
         db.session.add(new_event)
         db.session.commit()
-        flash('Event added successfully!', 'success')
-        return redirect(url_for('addevent'))
-    return render_template('addevent.html')
+        # flash('Event added successfully!', 'success')
+        # return redirect(url_for('addevent'))
+    return render_template('faculty.html')
 
 @web.route('/faculty/delevent', methods=["GET", "POST"])
 def delevent():
