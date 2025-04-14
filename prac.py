@@ -90,7 +90,7 @@ def show_enotices():
 @web.route('/notices/view/<int:id>') 
 def view_notice(id): 
     notice = Enotice.query.get(id)
-    # print(resource)
+    print(notice)
     return send_file(io.BytesIO(notice.data), mimetype=notice.mimetype, download_name=notice.filename, as_attachment=False)
 
 
@@ -105,16 +105,18 @@ def events():
         conn.close()
         # events_list = events.query.order_by(events.date.desc()).all()[0:4]
         return render_template('events.html', events=events_list)
+
 @web.route('/events/view/<int:id>') 
 def view_event(id): 
     event = Events.query.get(id)
-    # print(resource)
+    print(event)
     return send_file(io.BytesIO(event.data), mimetype=event.mimetype, download_name=event.filename, as_attachment=False)
 
 
 @web.route('/resources')
 def resource():
     return render_template('resources.html')
+
 @web.route('/resources/show', methods=['GET', 'POST'])
 def show_resource():
     resources = []
@@ -134,12 +136,14 @@ def show_resource():
         print(resources)
         conn.close()
     return render_template('resources.html', resources=resources)
+
 @web.route('/resources/view/<int:id>') 
 def view_resource(id): 
     resource = Resources.query.get(id)
     print(resource)
     return send_file(io.BytesIO(resource.data), mimetype=resource.mimetype, download_name=resource.filename, as_attachment=False)
 @web.route('/resources/download/<int:id>') 
+
 def download_resource(id): 
     resource = Resources.query.get(id)
     print(resource)
