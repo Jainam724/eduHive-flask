@@ -95,7 +95,7 @@
             <!-- e-Notice Modal -->
             <div class="modal fade" id="addnotice" tabindex="-1" aria-labelledby="addnoticeLabel" aria-hidden="true">
                 <div class="modal-dialog">
-                    <form action="/faculty/addnotice" method="POST">
+                    <form action="/faculty/addnotice" method="POST" enctype="multipart/form-data">
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h5 class="modal-title" id="addnoticeLabel">Add e-Notice</h5>
@@ -372,7 +372,7 @@
                             <h5 class="modal-title" id="addeventLabel">Add Events</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                        <form method="POST" action="/faculty/addevent">
+                        <form method="POST" action="/faculty/addevent" enctype="multipart/form-data">
                             <div class="modal-body">
                                     <div class="mb-3">
                                         <label for="event-title" class="form-label">Event title</label>

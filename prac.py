@@ -35,7 +35,9 @@ class Enotice(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(20))
     desc = db.Column(db.Text)
-    file = db.Column(db.String(100))
+    filename = db.Column(db.String(100))
+    data = db.Column(db.LargeBinary)
+    mimetype = db.Column(db.String(100))
     date = db.Column(db.String(20))
     department = db.Column(db.String(30))
     semester = db.Column(db.String(20))
@@ -45,18 +47,10 @@ class Events(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(100))
     description = db.Column(db.Text)
-    file = db.Column(db.String(100))
+    filename = db.Column(db.String(100))
+    data = db.Column(db.LargeBinary)
+    mimetype = db.Column(db.String(100))
     date = db.Column(db.String(20))
-    
-# class Resources(db.Model):
-#     id = db.Column(db.Integer, primary_key=True)
-#     title = db.Column(db.String(20))
-#     description = db.Column(db.Text)
-#     file = db.Column(db.String(100))
-#     date = db.Column(db.String(20))
-#     department = db.Column(db.String(30))
-#     semester = db.Column(db.String(10))
-#     faculty = db.Column(db.String(20))
 
 class Resources(db.Model): 
     id = db.Column(db.Integer, primary_key=True) 
@@ -79,7 +73,6 @@ def homepage():
 @web.route('/e-notice')
 def e_notice():
     return render_template('e-notice.html')
-
 @web.route('/e-notice/show', methods=['GET', 'POST'])
 def show_enotices():
     notices = []
@@ -94,6 +87,12 @@ def show_enotices():
         notices = cursor.fetchall()
         conn.close()
     return render_template('e-notice.html', notices=notices)
+@web.route('/notices/view/<int:id>') 
+def view_notice(id): 
+    notice = Enotice.query.get(id)
+    # print(resource)
+    return send_file(io.BytesIO(notice.data), mimetype=notice.mimetype, download_name=notice.filename, as_attachment=False)
+
 
 @web.route('/events')
 def events():
@@ -106,11 +105,16 @@ def events():
         conn.close()
         # events_list = events.query.order_by(events.date.desc()).all()[0:4]
         return render_template('events.html', events=events_list)
+@web.route('/events/view/<int:id>') 
+def view_event(id): 
+    event = Events.query.get(id)
+    # print(resource)
+    return send_file(io.BytesIO(event.data), mimetype=event.mimetype, download_name=event.filename, as_attachment=False)
+
 
 @web.route('/resources')
 def resource():
     return render_template('resources.html')
-
 @web.route('/resources/show', methods=['GET', 'POST'])
 def show_resource():
     resources = []
@@ -129,46 +133,42 @@ def show_resource():
         resources = cursor.fetchall()
         print(resources)
         conn.close()
-
-        # resource = Resources.query.get_or_404(id) 
-        # return send_file( io.BytesIO(resource.data), download_name=resource.filename, mimetype=resource.mimetype )
     return render_template('resources.html', resources=resources)
-
 @web.route('/resources/view/<int:id>') 
 def view_resource(id): 
     resource = Resources.query.get(id)
     print(resource)
     return send_file(io.BytesIO(resource.data), mimetype=resource.mimetype, download_name=resource.filename, as_attachment=False)
-
 @web.route('/resources/download/<int:id>') 
 def download_resource(id): 
     resource = Resources.query.get(id)
     print(resource)
     return send_file(io.BytesIO(resource.data), mimetype=resource.mimetype, download_name=resource.filename, as_attachment=True)
 
+
 @web.route('/about')
 def about():
     return render_template('about.html')
 
+
 @web.route('/faculty')
 def faculty():
-
     return render_template('faculty.html')
 
-# features add/del
 
+# features add/del
 @web.route('/faculty/addnotice', methods=["GET", "POST"])
 def addnotice():
     if request.method == "POST":
         title = request.form.get("ntitle")
         desc = request.form.get("ndesc")
-        file = request.form.get("nfile")
+        file = request.files['nfile']
         date = request.form.get("ndate")
         department = request.form.get("department")
         semester = request.form.get("semester")
         faculty = request.form.get("fname")
 
-        new_notice = Enotice(title=title, desc=desc, file=file, date=date, department=department, semester=semester, faculty=faculty)
+        new_notice = Enotice(title=title, desc=desc,filename=file.filename,data=file.read(),mimetype=file.mimetype, date=date, department=department, semester=semester, faculty=faculty)
         db.session.add(new_notice)
         db.session.commit()
         # flash('Notice added successfully!', 'success')
@@ -234,10 +234,10 @@ def addevent():
     if request.method == "POST":
         title = request.form.get("etitle")
         desc = request.form.get("edesc")
-        file = request.form.get("efile")
+        file = request.files["efile"]
         date = request.form.get("edate")
         
-        new_event = Events(title=title, description=desc, file=file, date=date)
+        new_event = Events(title=title, description=desc,filename=file.filename,data=file.read(),mimetype=file.mimetype, date=date)
         db.session.add(new_event)
         db.session.commit()
         # flash('Event added successfully!', 'success')
