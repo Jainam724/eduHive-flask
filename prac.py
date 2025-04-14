@@ -1,6 +1,8 @@
 from flask import Flask, render_template, request, redirect, url_for, session, flash
 from flask_sqlalchemy import SQLAlchemy
 import mysql.connector
+from flask import send_file
+import io
 from datetime import datetime
 
 web = Flask(__name__)
@@ -45,47 +47,34 @@ class Events(db.Model):
     description = db.Column(db.Text)
     file = db.Column(db.String(100))
     date = db.Column(db.String(20))
-    # department = db.Column(db.String(30))
-    # semester = db.Column(db.String(10))
-    # faculty = db.Column(db.String(20))
     
-   
-class Resources(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(20))
-    description = db.Column(db.Text)
-    file = db.Column(db.String(100))
-    date = db.Column(db.String(20))
-    department = db.Column(db.String(30))
-    semester = db.Column(db.String(10))
+# class Resources(db.Model):
+#     id = db.Column(db.Integer, primary_key=True)
+#     title = db.Column(db.String(20))
+#     description = db.Column(db.Text)
+#     file = db.Column(db.String(100))
+#     date = db.Column(db.String(20))
+#     department = db.Column(db.String(30))
+#     semester = db.Column(db.String(10))
+#     faculty = db.Column(db.String(20))
+
+class Resources(db.Model): 
+    id = db.Column(db.Integer, primary_key=True) 
+    title = db.Column(db.String(100)) 
+    description = db.Column(db.Text) 
+    filename = db.Column(db.String(100)) 
+    data = db.Column(db.LargeBinary) 
+    mimetype = db.Column(db.String(100)) 
+    date = db.Column(db.String(20)) 
+    department = db.Column(db.String(30)) 
+    semester = db.Column(db.String(10)) 
     faculty = db.Column(db.String(20))
 
 @web.route('/')
 
 @web.route('/home')
 def homepage():
-    
     return render_template('index.html')
-
-# @web.route('/e-notice', methods=["GET", "POST"]) 
-# def notice():
-#     n = enotice.query.filter_by(id='1').first()
-#     return render_template('e-notice.html', eNotice=n)
-
-# @web.route('/e-notice', methods=['GET', 'POST'])
-# def show_enotices():
-#     department = request.args.get('department')
-#     semester = request.args.get('semester')
-
-#     query = Enotice.query.order_by(Enotice.date.desc())
-    
-#     if department:
-#         query = query.filter_by(department=department)
-#     if semester:
-#         query = query.filter_by(semester=semester)
-        
-#     notices = query.limit(4).all()
-#     return render_template('e-notice.html', notices=notices)
 
 @web.route('/e-notice')
 def e_notice():
@@ -106,40 +95,17 @@ def show_enotices():
         conn.close()
     return render_template('e-notice.html', notices=notices)
 
-# @web.route('/events')
-# def events():
-#     return render_template('events.html')
-
 @web.route('/events')
 def events():
         events_list = []
         conn = get_db_connection()
         cursor = conn.cursor(dictionary=True)
-        query = "SELECT * FROM events ORDER BY date"
+        query = "SELECT * FROM events ORDER BY date DESC LIMIT 4"
         cursor.execute(query)
         events_list = cursor.fetchall()
         conn.close()
         # events_list = events.query.order_by(events.date.desc()).all()[0:4]
         return render_template('events.html', events=events_list)
-
-# @web.route('/resources')
-# def resources():
-#     return render_template('resources.html')
-
-# @web.route('/resources', methods=['GET', 'POST'])
-# def resources():
-#     department = request.args.get('department', '')
-#     semester = request.args.get('semester', '')
-    
-#     query = resource.query.order_by(resource.date.desc())
-    
-#     if department:
-#         query = query.filter_by(department=department)
-#     if semester:
-#         query = query.filter_by(semester=semester)
-        
-#     resources_list = query.all()[0:4]
-#     return render_template('resources.html', resources=resources_list)
 
 @web.route('/resources')
 def resource():
@@ -161,8 +127,18 @@ def show_resource():
             query = "SELECT * FROM Resources WHERE department = %s AND semester = %s"
             cursor.execute(query, (department, semester))
         resources = cursor.fetchall()
+        print(resources)
         conn.close()
+
+        # resource = Resources.query.get_or_404(id) 
+        # return send_file( io.BytesIO(resource.data), download_name=resource.filename, mimetype=resource.mimetype )
     return render_template('resources.html', resources=resources)
+
+@web.route('/resources/view/int:id') 
+def view_resource(id): 
+    resource = Resources.query.get_or_404(id) 
+    print(resource)
+    return send_file(io.BytesIO(resource.data), mimetype=resource.mimetype, download_name=resource.filename, as_attachment=False)
 
 @web.route('/about')
 def about():
@@ -170,17 +146,7 @@ def about():
 
 @web.route('/faculty')
 def faculty():
-    if request.method == "POST":
-        username = request.form.get("username")
-        password = request.form.get("password")
-        faculty = Faculty.query.filter_by(email=username, password=password).first()
-        
-        if faculty:
-            session['username'] = username
-            session['password'] = password
-            return redirect(url_for('faculty'))
-        else:
-            flash('Invalid credentials. Please try again.', 'danger')
+
     return render_template('faculty.html')
 
 # features add/del
@@ -224,18 +190,18 @@ def delnotice():
 
 @web.route('/faculty/addresource', methods=["GET", "POST"])
 def addresource():
-    if request.method == "POST":
-        title = request.form.get("rtitle")
-        desc = request.form.get("rdesc")
-        file = request.form.get("rfile")
-        date = request.form.get("rdate")
-        department = request.form.get("department")
-        semester = request.form.get("semester")
+    if request.method == "POST": 
+        file = request.files['rfile'] 
+        title = request.form.get("rtitle") 
+        description = request.form.get("rdesc") 
+        date = request.form.get("rdate") 
+        department = request.form.get("department") 
+        semester = request.form.get("semester") 
         faculty = request.form.get("fname")
 
-        new_resource = Resources(title=title, description=desc, file=file, date=date, department=department, semester=semester, faculty=faculty)
-        db.session.add(new_resource)
-        db.session.commit()
+    new_file = Resources(title=title,description=description,filename=file.filename,data=file.read(),mimetype=file.mimetype,date=date,department=department,semester=semester,faculty=faculty)
+    db.session.add(new_file)
+    db.session.commit()
         # flash('Resource added successfully!', 'success')
         # return redirect(url_for('addresource'))
     return render_template('faculty.html')
