@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, session, flash
 from flask_sqlalchemy import SQLAlchemy
-
+import mysql.connector
 from datetime import datetime
 
 web = Flask(__name__)
@@ -56,17 +56,7 @@ class resource(db.Model):
 
 @web.route('/home')
 def homepage():
-    if request.method == "POST":
-        username = request.form.get("username")
-        password = request.form.get("password")
-        faculty = Faculty.query.filter_by(email=username, password=password).first()
-        
-        if faculty:
-            session['username'] = username
-            session['password'] = password
-            return redirect(url_for('faculty'))
-        else:
-            flash('Invalid credentials. Please try again.', 'danger')
+    
     return render_template('index.html')
 
 # @web.route('/e-notice', methods=["GET", "POST"]) 
@@ -74,21 +64,44 @@ def homepage():
 #     n = enotice.query.filter_by(id='1').first()
 #     return render_template('e-notice.html', eNotice=n)
 
-@web.route('/e-notice', methods=['GET', 'POST'])
-def show_enotices():
-    department = request.args.get('department', '')
-    semester = request.args.get('semester', '')
-    
-    query = Enotice.query.order_by(Enotice.date.desc())
-    
-    if department:
-        query = query.filter_by(department=department)
-    if semester:
-        query = query.filter_by(semester=semester)
-        
-    notices = query.limit(4).all()
-    return render_template('e-notice.html', notices=notices)
+# @web.route('/e-notice', methods=['GET', 'POST'])
+# def show_enotices():
+#     department = request.args.get('department')
+#     semester = request.args.get('semester')
 
+#     query = Enotice.query.order_by(Enotice.date.desc())
+    
+#     if department:
+#         query = query.filter_by(department=department)
+#     if semester:
+#         query = query.filter_by(semester=semester)
+        
+#     notices = query.limit(4).all()
+#     return render_template('e-notice.html', notices=notices)
+
+def get_db_connection():
+    return mysql.connector.connect(
+        host='localhost',
+        user='root',
+        password='',
+        database='eduhive'
+    )
+
+@web.route('/e-notice', methods=['GET', 'POST'])
+def e_notice():
+    notices = []
+    if request.method == 'POST':
+        department = request.form.get('department')
+        semester = request.form.get('semester')
+
+        conn = get_db_connection()
+        cursor = conn.cursor(dictionary=True)
+        query = "SELECT * FROM enotices WHERE department = %s AND semester = %s"
+        cursor.execute(query, (department, semester))
+        notices = cursor.fetchall()
+        conn.close()
+
+    return render_template('e-notice.html', notices=notices)
 
 # @web.route('/events')
 # def events():
@@ -124,6 +137,17 @@ def about():
 
 @web.route('/faculty')
 def faculty():
+    if request.method == "POST":
+        username = request.form.get("username")
+        password = request.form.get("password")
+        faculty = Faculty.query.filter_by(email=username, password=password).first()
+        
+        if faculty:
+            session['username'] = username
+            session['password'] = password
+            return redirect(url_for('faculty'))
+        else:
+            flash('Invalid credentials. Please try again.', 'danger')
     return render_template('faculty.html')
 
 # features add/del

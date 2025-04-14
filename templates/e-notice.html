@@ -95,24 +95,26 @@
                 <div class="about-col">
                     <!-- <img src="images/about.jpg"> -->
                     <div class="accordion" id="accordionExample">
-                      {% for notice in notices %}
-                        {% set fname = 'images/' + notice.file %}
-                        <div class="accordion-item">
-                            <h2 class="accordion-header">
-                              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ loop.index }}" aria-expanded="false" aria-controls="collapse{{ loop.index }}">
-                                {{ notice.title }}
-                              </button>
-                            </h2>
-                            <div id="collapse{{ loop.index }}" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-                              <div class="accordion-body">
-                                <img src="{{ url_for('static', filename=fname) }}">
-                                {{ notice.desc }}
-                                <strong>{{ notice.date.strftime('%d-%m-%Y') }}</strong>
-                                <code>Faculty name: {{ notice.faculty }}</code>
+                      {% if notices %}
+                        {% for notice in notices %}
+                          {% set fname = 'images/' + notice.file %}
+                          <div class="accordion-item">
+                              <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ loop.index }}" aria-expanded="false" aria-controls="collapse{{ loop.index }}">
+                                  {{ notice.title }}
+                                </button>
+                              </h2>
+                              <div id="collapse{{ loop.index }}" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                                <div class="accordion-body">
+                                  <img src="{{ url_for('static', filename=fname) }}">
+                                  {{ notice.desc }}
+                                  <strong>{{ notice.date.strftime('%d-%m-%Y') }}</strong>
+                                  <code>Faculty name: {{ notice.faculty }}</code>
+                                </div>
                               </div>
-                            </div>
-                        </div>
-                      {% endfor %}
+                          </div>
+                        {% endfor %}
+                      {% endif %}
                     </div>
                     
             
