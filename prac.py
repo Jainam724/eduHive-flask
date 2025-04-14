@@ -134,11 +134,17 @@ def show_resource():
         # return send_file( io.BytesIO(resource.data), download_name=resource.filename, mimetype=resource.mimetype )
     return render_template('resources.html', resources=resources)
 
-@web.route('/resources/view/int:id') 
+@web.route('/resources/view/<int:id>') 
 def view_resource(id): 
-    resource = Resources.query.get_or_404(id) 
+    resource = Resources.query.get(id)
     print(resource)
     return send_file(io.BytesIO(resource.data), mimetype=resource.mimetype, download_name=resource.filename, as_attachment=False)
+
+@web.route('/resources/download/<int:id>') 
+def download_resource(id): 
+    resource = Resources.query.get(id)
+    print(resource)
+    return send_file(io.BytesIO(resource.data), mimetype=resource.mimetype, download_name=resource.filename, as_attachment=True)
 
 @web.route('/about')
 def about():
