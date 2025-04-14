@@ -10,6 +10,14 @@ db = SQLAlchemy(web)
 web.secret_key = ''
 web.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
+def get_db_connection():
+    return mysql.connector.connect(
+        host='localhost',
+        user='root',
+        password='',
+        database='eduhive'
+    )
+
 class Faculty(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(10), primary_key=True, nullable=False)
@@ -79,16 +87,12 @@ def homepage():
 #     notices = query.limit(4).all()
 #     return render_template('e-notice.html', notices=notices)
 
-def get_db_connection():
-    return mysql.connector.connect(
-        host='localhost',
-        user='root',
-        password='',
-        database='eduhive'
-    )
-
-@web.route('/e-notice', methods=['GET', 'POST'])
+@web.route('/e-notice')
 def e_notice():
+    return render_template('e-notice.html')
+
+@web.route('/e-notice/show', methods=['GET', 'POST'])
+def show_enotices():
     notices = []
     if request.method == 'POST':
         department = request.form.get('department')
@@ -96,11 +100,10 @@ def e_notice():
 
         conn = get_db_connection()
         cursor = conn.cursor(dictionary=True)
-        query = "SELECT * FROM enotices WHERE department = %s AND semester = %s"
+        query = "SELECT * FROM Enotice WHERE department = %s AND semester = %s"
         cursor.execute(query, (department, semester))
         notices = cursor.fetchall()
         conn.close()
-
     return render_template('e-notice.html', notices=notices)
 
 # @web.route('/events')

@@ -48,7 +48,7 @@
         <section class="testimonials">
             <h1>Select your preference</h1>
             <div class="row">
-              <form action="" method="POST">
+              <form action="/e-notice/show" method="POST">
                 <div class="about-col">
                     
                     <br>
@@ -114,6 +114,8 @@
                               </div>
                           </div>
                         {% endfor %}
+                        {% elif request.method == 'POST' %}
+    <p>No notices found for selected department and semester.</p>
                       {% endif %}
                     </div>
                     
