@@ -151,11 +151,15 @@ def show_resource():
     if request.method == 'POST':
         department = request.form.get('department')
         semester = request.form.get('semester')
-        # print(department, semester)
+        faculty = request.form.get('faculty')
         conn = get_db_connection()
         cursor = conn.cursor(dictionary=True)
-        query = "SELECT * FROM Enotice WHERE department = %s AND semester = %s"
-        cursor.execute(query, (department, semester))
+        if faculty!= '':
+            query = "SELECT * FROM Resources WHERE department = %s AND semester = %s and faculty = %s"
+            cursor.execute(query, (department, semester, faculty))
+        else:
+            query = "SELECT * FROM Resources WHERE department = %s AND semester = %s"
+            cursor.execute(query, (department, semester))
         resources = cursor.fetchall()
         conn.close()
     return render_template('resources.html', resources=resources)
@@ -201,9 +205,22 @@ def addnotice():
 
 @web.route('/faculty/delnotice', methods=["GET", "POST"])
 def delnotice():
+    if request.method == 'POST':
+        title = request.form.get("ntitle")
+        date = request.form.get("ndate")
+        department = request.form.get('department')
+        semester = request.form.get('semester')
+        faculty = request.form.get('fname')
+        # print(department, semester)
+        conn = get_db_connection()
+        cursor = conn.cursor(dictionary=True)
+        query = "DELETE FROM Enotice WHERE title = %s AND date = %s AND department = %s AND semester = %s AND faculty = %s"
+        cursor.execute(query, (title, date, department, semester, faculty))
+        conn.commit()
+        conn.close()
     # if request.method == "POST":
     #     db.session.delete(enotice.query.filter_by(title=request.form.get("title")).first())
-    return render_template('delnotice.html')
+    return render_template('faculty.html')
 
 @web.route('/faculty/addresource', methods=["GET", "POST"])
 def addresource():
@@ -225,7 +242,20 @@ def addresource():
 
 @web.route('/faculty/delresource', methods=["GET", "POST"])
 def delresource():
-    return render_template('delresource.html')
+    if request.method == 'POST':
+        title = request.form.get("rtitle")
+        date = request.form.get("rdate")
+        department = request.form.get('department')
+        semester = request.form.get('semester')
+        faculty = request.form.get('fname')
+        # print(department, semester)
+        conn = get_db_connection()
+        cursor = conn.cursor(dictionary=True)
+        query = "DELETE FROM Resources WHERE title = %s AND date = %s AND department = %s AND semester = %s AND faculty = %s"
+        cursor.execute(query, (title, date, department, semester, faculty))
+        conn.commit()
+        conn.close()
+    return render_template('faculty.html')
 
 @web.route('/faculty/addevent', methods=["GET", "POST"])
 def addevent():
@@ -244,7 +274,17 @@ def addevent():
 
 @web.route('/faculty/delevent', methods=["GET", "POST"])
 def delevent():
-    return render_template('delevent.html')
+    if request.method == 'POST':
+        title = request.form.get("etitle")
+        date = request.form.get("edate")
+        # print(department, semester)
+        conn = get_db_connection()
+        cursor = conn.cursor(dictionary=True)
+        query = "DELETE FROM Events WHERE title = %s AND date = %s"
+        cursor.execute(query, (title, date))
+        conn.commit()
+        conn.close()
+    return render_template('faculty.html')
 
 if __name__ == "__main__":
     web.run(debug=True)

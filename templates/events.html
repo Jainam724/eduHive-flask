@@ -51,16 +51,19 @@
                 <h2 style="text-align: center;">Event Announcements</h2>
             </div>
 
+            <br>
+            <br>
+
             <div class="row">
                 {% if events %}
                 {% for event in events %}
                     {% set fname = 'images/' + event.file %}
                     <div class="card mb-3">
-                        <img src="{{ url_for('static', filename=fname) }}" class="card-img-top" alt="..." style="padding-top: 10px;">
+                        <img src="{{ url_for('static', filename=fname) }}" class="card-img-top" alt="..." style="padding-top: 10px; width: 100%; height: 600px;">
                         <div class="card-body">
-                          <h5 class="card-title">{{event.title}}</h5>
+                          <h2 class="card-title">{{event.title}}</h2>
                           <p class="card-text">{{event.description}}</p>
-                          <p class="card-text"><small class="text-body-secondary">{{event.date}}</small></p>
+                          <p class="card-text"><code><h6>{{event.date}}</h6></code></p>
                         </div>
                     </div>
                 {% endfor %}

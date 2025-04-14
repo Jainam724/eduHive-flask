@@ -47,7 +47,7 @@
         <!-- ......Courses...... -->
         <section class="testimonials">
             <h1>Access Resources</h1>
-            <form action="">
+            <form action="/resources/show" method="POST">
                 <div class="row">
                     <div class="about-col">
                         
@@ -89,7 +89,7 @@
 
                     </div>
                 </div>
-                <div class="row">
+                <div class="row justify-content-center">
                     <div class="about-col" style="text-align: left;">
                         <h4>Faculty:</h4>
                         <div class="input-group flex-nowrap">
@@ -105,35 +105,47 @@
         </section>
 
         <!----Facilities---->
-        <section class="facilities">
-            <h1>Your resources</h1>
-            <p>Excel up yourself by accessing resources</p>
-
-            <div class="row">
-                <div class="container">
-                    <div class="row justify-content-center">
-                        <div class="col-md-4">
-                            <div class="featured-product-card">
-                                <div class="featured-product-image" style="background-image: url('https://via.placeholder.com/400');">
-                                </div>
-                                <div class="featured-product-details">
-                                    <h3 class="mb-3">Resouce Title</h3>
-                                    <p class="mb-3">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere
-                                        erat a ante.</p>
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <span class="text-muted">Date</span>
-                                        <span class="text-muted">Faculty</span>
-                                        
+        {% if resources %}
+            <section class="facilities">
+                <h1>Your resources</h1>
+                <p>Excel up yourself by accessing resources</p>
+            
+                        {% for resource in resources %}
+                            {% set fname = 'images/' + resource.file %}
+                            <div class="row">
+                                <div class="container">
+                                    <div class="row justify-content-center">
+                                        <div class="col-md-4">
+                                            <div class="featured-product-card">
+                                                <div class="featured-product-image">
+                                                    <img src="{{ url_for('static', filename=fname) }}" alt="Resource Image" class="img-fluid">
+                                                </div>
+                                                <div class="featured-product-details">
+                                                    <h3 class="mb-3">{{ resource.title }}</h3>
+                                                    <p class="mb-3">{{ resource.description }}</p>
+                                                    <div class="d-flex justify-content-between align-items-center">
+                                                        <span class="text-muted">{{ resource.date }}</span>
+                                                        <span class="text-muted">{{ resource.faculty }}</span>
+                                                        
+                                                    </div>
+                                                    <br>
+                                                    <a href="#" class="btn btn-primary">Download</a>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <br>
-                                    <a href="#" class="btn btn-primary">Download</a>
                                 </div>
                             </div>
-                        </div>
-                    </div>
+                        {% endfor %}
+                    
+            </section>
+        {% elif request.method == 'POST' %}
+            <div class="row justify-content-center">
+                <div class="about-col">
+                    <h6 style="text-align: center;">No resources found for selected department and semester.</h6>
                 </div>
             </div>
-        </section>
+        {% endif %}
 
         <!-- ......Footer...... -->
         <section class="footer">

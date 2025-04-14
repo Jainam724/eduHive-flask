@@ -91,7 +91,7 @@
             <br>
             <br>
             <br>
-            <div class="row">
+            <div class="row justify-content-center">
                 <div class="about-col">
                     <!-- <img src="images/about.jpg"> -->
                     <div class="accordion" id="accordionExample">
@@ -108,14 +108,17 @@
                                 <div class="accordion-body">
                                   <img src="{{ url_for('static', filename=fname) }}">
                                   {{ notice.desc }}
-                                  <strong>{{ notice.date.strftime('%d-%m-%Y') }}</strong>
-                                  <code>Faculty name: {{ notice.faculty }}</code>
+                                  <br>
+                                  <div class="d-flex justify-content-between">
+                                    <strong>{{ notice.date.strftime('%d-%m-%Y') }}</strong>
+                                    <code>Faculty name: {{ notice.faculty }}</code>
+                                  </div>                                
                                 </div>
                               </div>
                           </div>
                         {% endfor %}
                         {% elif request.method == 'POST' %}
-    <p>No notices found for selected department and semester.</p>
+                          <p>No notices found for selected department and semester.</p>
                       {% endif %}
                     </div>
                     
