@@ -3,21 +3,21 @@
 # # with web.app_context():
 # #     db.create_all()
 
-from backend import web, db, Faculty  # Adjust import as per your project structure
+# from insery_faculty import web, db, Faculty  # Adjust import as per your project structure
 
-with web.app_context():  # Important: Needed to access app context outside routes
-    db.create_all()  # Create tables if not exist
+# with web.app_context():  # Important: Needed to access app context outside routes
+#     db.create_all()  # Create tables if not exist
 
-    # Create static faculty entries
-    faculty1 = Faculty(username="suhani", email="suhani@example.com", password="suhani123", department="Computer Engineering")
-    faculty2 = Faculty(username="raj", email="raj@example.com", )
+#     # Create static faculty entries
+#     faculty1 = Faculty(username="suhani", email="suhani@example.com", password="suhani123", department="Computer Engineering")
+#     faculty2 = Faculty(username="raj", email="raj@example.com", )
 
-    # Add and commit to database
-    db.session.add(faculty1)
-    db.session.add(faculty2)
-    db.session.commit()
+#     # Add and commit to database
+#     db.session.add(faculty1)
+#     db.session.add(faculty2)
+#     db.session.commit()
 
-    print("Static faculty data inserted successfully.")
+#     print("Static faculty data inserted successfully.")
 
 
 

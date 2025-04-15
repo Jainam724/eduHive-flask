@@ -4,12 +4,12 @@ import mysql.connector
 from flask import send_file
 import io
 from datetime import datetime
+from werkzeug.security import generate_password_hash, check_password_hash
 
 web = Flask(__name__)
-
+web.secret_key = 'a8fj3j#sdf83!29s@dsf8'
 web.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:@localhost/eduhive'
 db = SQLAlchemy(web)
-web.secret_key = ''
 web.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 def get_db_connection():
@@ -93,7 +93,6 @@ def view_notice(id):
     print(notice)
     return send_file(io.BytesIO(notice.data), mimetype=notice.mimetype, download_name=notice.filename, as_attachment=False)
 
-
 @web.route('/events')
 def events():
         events_list = []
@@ -154,6 +153,62 @@ def download_resource(id):
 def about():
     return render_template('about.html')
 
+# @web.route('/faculty/login', methods=["GET", "POST"])
+# def faculty_login():
+    
+#     if request.method == "POST":
+#         email = request.form.get("email")
+#         password = request.form.get("password")
+
+#         if not email or not password:
+#             flash("Please enter both email and password.", "warning")
+#             return redirect(request.url)
+
+#         faculty = Faculty.query.filter_by(email=email).first()
+
+#         if faculty and check_password_hash(faculty.password, password):
+#             session['faculty_id'] = faculty.id
+#             flash("Login successful!", "success")
+#             print(f"Entered password: {password}")
+#             print(f"Stored hashed password: {faculty.password}")
+
+#             return redirect(url_for('faculty'))
+#         else:
+#             flash("Invalid credentials. Please try again.", "danger")
+#             return redirect(request.url)
+
+#     return render_template('faculty.html')
+
+@web.route('/faculty/login', methods=["GET", "POST"])
+def faculty_login():
+    if request.method == "POST":
+        email = request.form.get("email")
+        password = request.form.get("password")
+
+        if not email or not password:
+            flash("Please enter both email and password.", "warning")
+            return redirect(request.url)
+
+        faculty = Faculty.query.filter_by(email=email).first()
+
+        if faculty:
+            print(f"Entered password: {password}")  # Debugging entered password
+            print(f"Stored hashed password: {faculty.password}")  # Debugging stored hash
+
+            if check_password_hash(faculty.password, password):
+                session['faculty_id'] = faculty.id
+                flash("Login successful!", "success")
+                return redirect(url_for('faculty'))  # Redirect to faculty dashboard
+            else:
+                flash("Invalid credentials. Please try again.", "danger")
+                print(f"Password comparison failed for: {email}")
+                return redirect(request.url)
+        else:
+            flash("No account found with this email.", "danger")
+            print(f"No faculty found with email: {email}")
+            return redirect(request.url)
+
+    return render_template('faculty.html')
 
 @web.route('/faculty')
 def faculty():
@@ -263,4 +318,13 @@ def delevent():
     return render_template('faculty.html')
 
 if __name__ == "__main__":
+    with web.app_context():
+        faculty_list = Faculty.query.all()
+        for fac in faculty_list:
+            if not fac.password.startswith('pbkdf2:'):
+                fac.password = generate_password_hash(fac.password)
+                print(f"Hashed password for: {fac.email}")
+        db.session.commit()
+        print("All plaintext passwords hashed successfully!")
+
     web.run(debug=True)
