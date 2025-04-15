@@ -25,11 +25,11 @@ class Faculty(db.Model):
     name = db.Column(db.String(10), primary_key=True, nullable=False)
     surname = db.Column(db.String(10), unique=True, nullable=False)
     email = db.Column(db.String(30), unique=True, nullable=False)
-    password = db.Column(db.String(12), nullable=False)
+    password = db.Column(db.String(255), nullable=False)
     department = db.Column(db.String(30))
 
-    def __repr__(self):
-        return f'<Faculty {self.username}>'
+    # def __repr__(self):
+    #     return f'<Faculty {self.username}>'
     
 class Enotice(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -153,48 +153,23 @@ def download_resource(id):
 def about():
     return render_template('about.html')
 
-# @web.route('/faculty/login', methods=["GET", "POST"])
-# def faculty_login():
-    
-#     if request.method == "POST":
-#         email = request.form.get("email")
-#         password = request.form.get("password")
-
-#         if not email or not password:
-#             flash("Please enter both email and password.", "warning")
-#             return redirect(request.url)
-
-#         faculty = Faculty.query.filter_by(email=email).first()
-
-#         if faculty and check_password_hash(faculty.password, password):
-#             session['faculty_id'] = faculty.id
-#             flash("Login successful!", "success")
-#             print(f"Entered password: {password}")
-#             print(f"Stored hashed password: {faculty.password}")
-
-#             return redirect(url_for('faculty'))
-#         else:
-#             flash("Invalid credentials. Please try again.", "danger")
-#             return redirect(request.url)
-
-#     return render_template('faculty.html')
-
 @web.route('/faculty/login', methods=["GET", "POST"])
 def faculty_login():
+    print("Faculty login page accessed")
     if request.method == "POST":
         email = request.form.get("email")
         password = request.form.get("password")
+        print(email, password)
 
-        if not email or not password:
-            flash("Please enter both email and password.", "warning")
-            return redirect(request.url)
+        # if not email or not password:
+        #     flash("Please enter both email and password.", "warning")
+        #     return redirect(request.url)
 
         faculty = Faculty.query.filter_by(email=email).first()
-
+        print(faculty)
         if faculty:
             print(f"Entered password: {password}")  # Debugging entered password
-            print(f"Stored hashed password: {faculty.password}")  # Debugging stored hash
-
+            print(f"Stored hashed password: {faculty.password}")
             if check_password_hash(faculty.password, password):
                 session['faculty_id'] = faculty.id
                 flash("Login successful!", "success")
@@ -202,7 +177,8 @@ def faculty_login():
             else:
                 flash("Invalid credentials. Please try again.", "danger")
                 print(f"Password comparison failed for: {email}")
-                return redirect(request.url)
+                print(request.url)
+                return redirect('/home')
         else:
             flash("No account found with this email.", "danger")
             print(f"No faculty found with email: {email}")
@@ -321,10 +297,12 @@ if __name__ == "__main__":
     with web.app_context():
         faculty_list = Faculty.query.all()
         for fac in faculty_list:
-            if not fac.password.startswith('pbkdf2:'):
-                fac.password = generate_password_hash(fac.password)
+
+            if not fac.password.startswith('pbkdf2:sha256:'):
+                print(fac.password)
+                fac.password = generate_password_hash(fac.password, method='pbkdf2:sha256')
                 print(f"Hashed password for: {fac.email}")
         db.session.commit()
-        print("All plaintext passwords hashed successfully!")
+        print("All passwords rehashed with pbkdf2:sha256")
 
     web.run(debug=True)
