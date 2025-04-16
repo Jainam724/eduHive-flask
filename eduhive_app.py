@@ -186,6 +186,12 @@ def faculty_login():
 
     return render_template('faculty.html')
 
+@web.route('/faculty/logout' , methods=["GET"])
+def faculty_logout():
+    session.pop('faculty_id', None)
+    #flash("Logged out successfully!", "success")
+    return redirect('/home')
+
 @web.route('/faculty')
 def faculty():
     return render_template('faculty.html')
